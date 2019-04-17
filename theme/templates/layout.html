@@ -8,10 +8,11 @@
   <meta name="format-detection" content="telephone=no">
   <title>Ant Design</title>
   <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/tomorrow.css">
   <script src="https://a.alipayobjects.com/jquery/jquery/1.11.1/jquery.js"></script>
   <script src="/static/script.js"></script>
 </head>
-<body>
+<body class="{%- if post.filepath === 'README.md' %}index-page{%- endif %}">
   <header id="header">
     <a class="logo" href="/">
       <img src="https://t.alipayobjects.com/images/T1.lRfXcxoXXXXXXXX.png">
@@ -23,25 +24,34 @@
       </form>
     </div>
     <nav class="nav">
-      <span class="bar"></span>
       <ul>
-        <li><a href="/">首页</a>
+        <li class="{%- if post.filename === 'index' %}current{%- endif %}">
+          <a href="/">首页</a>
         </li>
-        <li><a href="/docs/instruction">原则</a>
+        <li class="{%- if post.filename === 'start' %}current{%- endif %}">
+          <a href="/docs/start">上手</a>
         </li>
-        <li><a href="/docs/components">组件</a>
+        <li class="{%- if post.filename === 'design' %}current{%- endif %}">
+          <a href="/docs/design">设计</a>
         </li>
-        <li><a href="/docs/modes">模式</a>
+        <li class="{%- if post.meta.template === 'component' %}current{%- endif %}">
+          <a href="/components/button">组件</a>
         </li>
-        <li><a href="/docs/cases">案例</a>
+        <li class="{%- if post.filename === 'modes' %}current{%- endif %}">
+          <a href="/docs/modes">模式</a>
         </li>
-        <li><a href="/docs/download">下载</a>
+        <li class="{%- if post.filename === 'cases' %}current{%- endif %}">
+          <a href="/docs/cases">案例</a>
+        </li>
+        <li class="{%- if post.filename === 'download' %}current{%- endif %}">
+          <a href="/docs/download">下载</a>
         </li>
       </ul>
     </nav>
     <div class="nav-phone-icon"></div>
   </header>
-  {%- if post.filename === 'index' %}
+  {%- if post.filepath === 'README.md' %}
+  <!-- 首页 -->
   <div class="main">
     <div class="main-box" id="main">
       <div class="banner-box">
@@ -53,15 +63,22 @@
   </div>
   <script src="/static/home.js"></script>
   {%- else %}
-  <article class="markdown">
-    <h1>{{ post.title }}</h1>
-    {{ post.html }}
-  </article>
+    {%- if post.meta.template === 'component' %}
+    {%- include "aside.html" %}
+    <section class="main-container">
+    {%- else %}
+    <section class="main-container-center">
+    {%- endif %}
+    <article class="markdown">
+      <h1>{{ post.title }}</h1>
+      {{ post.html }}
+    </article>
+  </section>
   {%- endif %}
   <footer id="footer">
     <ul>
       <li>
-        <h2>Ｇitlab仓库</h2>
+        <h2>Gitlab仓库</h2>
         <a href="">脚手架 - Flaming Water</a>
         <a href="">组件 - Flaming Cloud Component</a>
       </li>
